@@ -3,11 +3,10 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
+
         Scanner in = new Scanner(System.in);
         Random rnd = new Random();
 
-        int count = 1, count1 = 1, count2 = 0, countUnique = 0, z = 0;
-        boolean search = false;
         System.out.print("Введите длину массива: ");
         int lenghtArray = in.nextInt();
         int[] firstArray = new int[lenghtArray];
@@ -18,36 +17,52 @@ public class Program {
             System.out.print(firstArray[i] + " ");
         }
 
-
+        boolean search = false;
+        int count = 0;
         for (int i = 0; i < firstArray.length; i++) {
-            countUnique++;
+            search = false;
             for (int j = i + 1; j < firstArray.length; j++) {
                 if (firstArray[i] == firstArray[j]) {
+                    search = true;
+                    break;
+                }
+            }
+            if (!search) count++;
+        }
+
+
+        System.out.println();
+        System.out.println("Количество уникальных элементов: " + count);
+        int[][] matrix = new int[count][2];
+        for (int i = 0; i < firstArray.length; i++) {
+            if (i == 0){
+                matrix[0][0] = firstArray[0];
+                matrix[0][1] = 1;
+                count = 1;
+            }
+            else{
+                search = false;
+                for (int j = 0; j < count; j++)
+                {
+                    if (firstArray[i] == matrix[j][0])
+                    {
+                        matrix[j][1]++;
+                        search = true;
+                        break;
+                    }
+                }
+                if (!search){
+                    matrix[count][0] = firstArray[i];
+                    matrix[count][1] = 1;
                     count++;
                 }
             }
         }
-        count = countUnique - count + 1;
 
+        for (int i = 0; i < matrix.length; i++) {
+            System.out.print(matrix[i][0] + " (" + matrix[i][1] + " раз)");
             System.out.println();
-            System.out.println("Количество уникальных элементов" + count);
-            int[][] matrix = new int[count][2];
-
-        for (int i = 0; i < firstArray.length; i++) {
-            countUnique++;
-            for (int j = i + 1; j < firstArray.length; j++) {
-                if (firstArray[i] == firstArray[j]) {
-                    count1++;
-                }
-            }
         }
 
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < 2; j++) {
-                    System.out.print(matrix[i][j] + " ");
-                }
-                System.out.println();
-            }
-
-        }
     }
+}
